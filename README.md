@@ -7,8 +7,12 @@ Node.js API that integrates with GCP Pub/Sub
 ## Pre-Req
 - Docker
 - Node.js
+- GCloud SDK
 
 ## Local Deployment
+Setting up credentials by running:
+`gcloud auth application-default login`
+
 Install the relevant dependencies by running:
 `npm i`
 
