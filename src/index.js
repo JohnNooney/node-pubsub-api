@@ -1,9 +1,37 @@
+import { PubSubClient } from "./PubSubClient";
+
 const express = require("express");
 const app = express();
 const port = 3000;
+const pubSubClient = PubSubClient('pubsub-project');
+var topic;
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.post("/createTopic", async (req, res) => {
+    // Validate user input (replace with your validation logic)
+    if (!req.body.topic) {
+        return res.status(400).json({ message: 'Missing required topic field' });
+    }
+
+    try {
+        topic = await pubSubClient.createTopic(req.body.topic);
+
+        res.status(201).json({ message: 'Topic ' + req.body.topic + ' created.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+app.post("/createConsumer", (req, res) => {
+    res.send("Hello World!");
+});
+
+app.post("/sendMessageToTopic/", (req, res) => {
+    res.send("Hello World!");
 });
 
 app.listen(port, () => {
