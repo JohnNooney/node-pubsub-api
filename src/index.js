@@ -18,7 +18,7 @@ app.post("/createTopic", async (req, res) => {
     }
 
     try {
-        topic = await pubSubClient.createTopic(req.body.topic);
+        await pubSubClient.createTopic(req.body.topic);
 
         res.status(201).json({ message: 'Topic ' + req.body.topic + ' created.' });
     } catch (error) {
@@ -36,7 +36,7 @@ app.post("/createConsumer", async (req, res) => {
     }
 
     try {
-        topic = await pubSubClient.createSubscriptionOnTopic(req.body.consumerName, req.body.topic);
+        await pubSubClient.createSubscriptionOnTopic(req.body.consumerName, req.body.topic);
 
         res.status(201).json({ message: 'Consumer on topic: ' + req.body.topic + ' created.' });
     } catch (error) {
@@ -53,7 +53,7 @@ app.post("/sendMessageToTopic", async (req, res) => {
     }
 
     try {
-        topic = await pubSubClient.sendMessageToTopic(req.body.message, req.body.topic);
+        await pubSubClient.sendMessageToTopic(req.body.message, req.body.topic);
 
         res.status(201).json({ message: 'Message: ' + req.body.message + ' sent on topic: ' + req.body.topic });
     } catch (error) {
