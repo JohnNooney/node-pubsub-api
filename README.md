@@ -1,13 +1,17 @@
 # node-pubsub-api
-Node.js API that integrates with GCP Pub/Sub 
+Node.js API that integrates with GCP Pub/Sub to create Topics, Subscriptions, and publish messages
 
-
-
-# Deployment 
 ## Pre-Req
-- Docker
-- Node.js
-- GCloud SDK
+- [Node.js]([url](https://nodejs.org/en/download/package-manager))
+- [GCloud SDK](https://cloud.google.com/sdk/docs/install-sdk)
+- (optional) [Docker]([url](https://docs.docker.com/get-docker/))
+
+## GCP Setup
+Create a project in GCP
+`gcloud projects create PROJECT_ID`
+
+**Important Note**: make sure to delete any resources that were created with this tool to avoid incurring any costs
+Read more here - https://cloud.google.com/pubsub/docs/publish-receive-messages-console
 
 ## Local Deployment
 Setting up credentials by running:
@@ -28,7 +32,7 @@ Test:
 When you're ready, start your application by running:
 `docker compose up --build`.
 
-Your application will be available at http://localhost:8443.
+Your application will be available at http://localhost:3000.
 
 ### Deploying your application to the cloud
 
