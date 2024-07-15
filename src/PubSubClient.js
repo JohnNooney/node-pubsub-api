@@ -1,4 +1,3 @@
-// Imports the Google Cloud client library
 const {PubSub} = require('@google-cloud/pubsub');
 
 class PubSubClient
@@ -8,7 +7,7 @@ class PubSubClient
         this.client = new PubSub({projectId});
         this.initSubscriptions();
     }
-
+    
     async initSubscriptions()
     {
         try {
@@ -28,18 +27,21 @@ class PubSubClient
 
     async createTopic(topicNameOrId)
     {
-        const [topic] = await this.client.createTopic(topicNameOrId);
-        console.log(`Topic ${topic.name} created.`);
-
-        return topic;
+        try {
+            const [topic] = await this.client.createTopic(topicNameOrId);
+            console.log(`Topic ${topic.name} created.`);
+        } catch(error) {
+            console.error(`Received error creating topic : ${error.message}`);
+            throw new Error(error.message);
+        }
     }
 
     async createSubscriptionOnTopic (subscriptionName, topicNameOrId) 
     {
         try {
             const [subscription] = await this.client.topic(topicNameOrId).createSubscription(subscriptionName);
-        subscription.on('message', this.onSubscriptionSuccessCallback);
-        subscription.on('error', this.onSubscriptionErrorCallback);
+            subscription.on('message', this.onSubscriptionSuccessCallback);
+            subscription.on('error', this.onSubscriptionErrorCallback);
 
             console.log(`Consumer ${subscription.name} created on topic ${topicNameOrId}`);
         } catch(error) {
