@@ -1,9 +1,8 @@
-import { PubSubClient } from "./PubSubClient";
-
+const PubSubClient = require("./PubSubClient");
 const express = require("express");
 const app = express();
 const port = 3000;
-const pubSubClient = PubSubClient('pubsub-project');
+const pubSubClient = new PubSubClient('jonida');
 var topic;
 
 app.get("/", (req, res) => {

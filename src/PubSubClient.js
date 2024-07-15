@@ -1,7 +1,7 @@
 // Imports the Google Cloud client library
 const {PubSub} = require('@google-cloud/pubsub');
 
-export class PubSubClient
+class PubSubClient
 {
     constructor(projectId)
     {
@@ -45,3 +45,5 @@ export class PubSubClient
     }
 
 }
+
+module.exports = PubSubClient;
