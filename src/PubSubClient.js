@@ -16,32 +16,42 @@ class PubSubClient
         return topic;
     }
 
-    async createSubscriptionOnTopic (subscriptionName = 'my-sub', topic) 
+    async createSubscriptionOnTopic (subscriptionName, topicNameOrId) 
     {
-        // Creates a subscription
-        const [subscription] = await topic.createSubscription(subscriptionName);
-      
+        try {
+            const [subscription] = await this.client.topic(topicNameOrId).createSubscription(subscriptionName);
         subscription.on('message', this.onSubscriptionSuccessCallback);
         subscription.on('error', this.onSubscriptionErrorCallback);
+
+            console.log(`Consumer ${subscription.name} created on topic ${topicNameOrId}`);
+        } catch(error) {
+            console.error(`Received error creating subscription : ${error.message}`);
+            throw new Error(error.message);
+        }
     }
 
-    async sendMessageToTopic(topic)
+    async sendMessageToTopic(message, topicNameOrId)
     {
-        // Send a message to the topic
-        topic.publishMessage({data: Buffer.from('Test message!')});
+        try {
+            const messageId = await this.client
+                .topic(topicNameOrId)
+                .publishMessage({data: Buffer.from(message)});
+
+            console.log(`Message: \"${messageId}\" sent to topic ${topicNameOrId}.`);
+        } catch(error) {
+            console.error(`Received error while publishing: ${error.message}`);
+            throw new Error(error.message);
+        }
     }
 
     onSubscriptionSuccessCallback(message)
     {
         console.log('Received message:', message.data.toString());
-        process.exit(0);
-  
     }
 
     onSubscriptionErrorCallback(error)
     {
         console.error('Received error:', error);
-          process.exit(1);
     }
 
 }
