@@ -8,7 +8,24 @@ class PubSubClient
         this.client = new PubSub({projectId});
     }
 
-    async createTopic(topicNameOrId = 'my-topic')
+    async initSubscriptions()
+    {
+        try {
+            const [subscriptions] = await this.client.getSubscriptions();
+            
+            console.log('Initializing Subscriptions:');
+            subscriptions.forEach(subscription => {
+                subscription.on('message', this.onSubscriptionSuccessCallback);
+                subscription.on('error', this.onSubscriptionErrorCallback);
+                
+                console.log(subscription.name + " callbacks assigned.");
+            });
+        } catch (error) {
+            console.error(`Received initializing subscriptions: ${error.message}`);
+        }
+    }
+
+    async createTopic(topicNameOrId)
     {
         const [topic] = await this.client.createTopic(topicNameOrId);
         console.log(`Topic ${topic.name} created.`);
