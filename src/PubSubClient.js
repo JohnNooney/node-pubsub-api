@@ -6,6 +6,7 @@ class PubSubClient
     constructor(projectId)
     {
         this.client = new PubSub({projectId});
+        this.initSubscriptions();
     }
 
     async initSubscriptions()
